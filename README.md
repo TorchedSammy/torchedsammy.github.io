@@ -1,2 +1,2 @@
 # torchedsammy.github.io
-a
+It's just my personal website. Be sure to look at it here: https://torchedsammy.github.io/
