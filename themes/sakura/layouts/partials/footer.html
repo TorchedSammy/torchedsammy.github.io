@@ -4,7 +4,7 @@
 {{ $lightScss := resources.Get (printf "css/%s.scss" $.Site.Params.lightSakura) }}
 {{ $lightStyle := $lightScss | resources.ToCSS | resources.Fingerprint }}
 
-{{ $js := resources.Get "js/index.js" | js.Build (dict "params" (dict "light" $lightStyle.Permalink "dark" $darkStyle.Permalink)) | resources.Minify | resources.Fingerprint }}
+{{ $js := resources.Get "js/index.js" | js.Build (dict "params" (dict "light" $lightStyle.RelPermalink "dark" $darkStyle.RelPermalink)) | resources.Minify | resources.Fingerprint }}
 <script src="{{ $js.Permalink }}" integrity="{{ $js.Data.Integrity }}"></script>
 <!-- End -->
 
