@@ -1,0 +1,87 @@
+h1, h2, h3, h4, h5, h6 {
+	margin-top: 0;
+}
+
+h1 {
+	font-size: 1.8em;
+}
+
+h2 {
+	font-size: 1.6em;
+}
+
+h3 {
+	font-size: 1.4em;
+}
+
+h4 {
+	font-size: 1.2em;
+}
+
+h5 {
+	font-size: 1em;
+}
+
+h6 {
+	font-size: 0.8em;
+}
+
+.bar {
+	& a {
+        color: $color-fade;
+	}
+	& h1, h2, h3, h4, h5, h6 {
+		color: $color-fade;
+	}
+	display: flex;
+    align-items: baseline;
+}
+
+.place-left {
+	display: flex;
+    align-items: baseline;
+    gap: 16px;
+	margin-left: 0;
+	margin-right: auto; 
+}
+
+.place-center {
+	display: flex;
+    align-items: baseline;
+    gap: 16px;
+	margin-left: auto;
+	margin-right: auto; 
+}
+
+.place-right {
+	display: flex;
+    align-items: baseline;
+    gap: 16px;
+	margin-left: auto; 
+	margin-right: 0;
+}
+
+.banner-content {
+	& h1 {
+		font-family: 'Victor Mono', monospace;
+		font-style: italic;
+	}
+	font-family: 'Victor Mono', monospace;
+	font-style: italic;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.post-metadata {
+	display: flex;
+	gap: 6px;
+}
+
+#profile-pic {
+	border-radius: 50%;
+}
+
+#theme-switch {
+	font-size: 1.2em;
+}

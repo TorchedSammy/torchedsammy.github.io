@@ -1,0 +1,25 @@
+<!-- JS Theme Switch Related Code -->
+{{ $darkScss := resources.Get (printf "css/%s.scss" $.Site.Params.darkSakura) }}
+{{ $darkStyle := $darkScss | resources.ToCSS | resources.Fingerprint }}
+{{ $lightScss := resources.Get (printf "css/%s.scss" $.Site.Params.lightSakura) }}
+{{ $lightStyle := $lightScss | resources.ToCSS | resources.Fingerprint }}
+
+{{ $js := resources.Get "js/index.js" | js.Build (dict "params" (dict "light" $lightStyle.Permalink "dark" $darkStyle.Permalink)) | resources.Minify | resources.Fingerprint }}
+<script src="{{ $js.Permalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+<!-- End -->
+
+<hr>
+<small>
+	<div class='bar'>
+		<div class='place-left'>
+				<p>(c) TorchedSammy 2022</p>
+		</div>
+		<div class='place-center'>
+			<i class='fas fa-heart'></i>
+		</div>
+		<div class='place-right'>
+			<p>made with <a href='https://gohugo.io/'>hugo</a> & <a href='https://github.com/oxalorg/sakura'>sakura</a></p>
+		</div>
+	</div>
+</small>
+

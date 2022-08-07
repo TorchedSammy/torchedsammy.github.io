@@ -1,0 +1,15 @@
+baseURL = "https://sammy.is-a.dev/"
+title = "sammyette's place"
+theme = "sakura"
+languageCode = "en-US"
+enableInlineShortcodes = true
+
+[params]
+  lightSakura = "sakura"
+  darkSakura = "sakura-vader"
+
+[permalinks]
+  posts = "/:title/"
+
+[markup.goldmark.renderer]
+  unsafe = true
