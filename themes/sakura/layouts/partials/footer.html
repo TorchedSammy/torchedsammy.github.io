@@ -5,7 +5,7 @@
 {{ $lightStyle := $lightScss | resources.ToCSS | resources.Fingerprint }}
 
 {{ $js := resources.Get "js/index.js" | js.Build (dict "params" (dict "light" $lightStyle.RelPermalink "dark" $darkStyle.RelPermalink)) | resources.Minify | resources.Fingerprint }}
-<script src="{{ $js.Permalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
 <!-- End -->
 
 <hr>
