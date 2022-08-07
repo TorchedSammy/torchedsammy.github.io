@@ -1,0 +1,44 @@
+<!doctype html><html><head><title>Lite XL - A dream close to reality — sammyette's place</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name=theme-color content="#ff89dd"><meta content="https://avatars1.githubusercontent.com/u/38820196?s=460&u=b9f4efb2375bae6cb30656d790c6e0a2939327c0&v=4" property="og:image"><meta property="og:site_name" content="sammyette"><meta content="Lite XL - A dream close to reality — sammyette's place" property="og:title"><meta content="A text editor is one of the programs I spend the most time in, since in my free time I&rsquo;m working on a code project. Having a comfortable, extensible text editor is important to me.
+I&rsquo;ve been happily using Neovim for the past 1-2 years by now. Before that, while on Windows, I was using Sublime Text around 3 years ago. Back then, I just needed something to code in with some kind of autocomplete." property="og:description"><meta content="A text editor is one of the programs I spend the most time in, since in my free time I&rsquo;m working on a code project. Having a comfortable, extensible text editor is important to me.
+I&rsquo;ve been happily using Neovim for the past 1-2 years by now. Before that, while on Windows, I was using Sublime Text around 3 years ago. Back then, I just needed something to code in with some kind of autocomplete." name=description><meta name=revisit-after content="2 days"><meta name=keywords content="TorchedSammy,Twitter,Developer,Github,Discord"><meta property="og:locale" content="en_GB"><link rel=canonical href=https://sammy.is-a.dev/><meta property="og:url" content="https://sammy.is-a.dev/"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin=anonymous referrerpolicy=no-referrer><link rel=stylesheet href=https://sammy.is-a.dev/css/sakura-vader.b348282120ff4943c4ba49632b0f5a6633da75534fd4fbd9eb02498e559b79fd.css integrity="sha256-s0goISD/SUPEukljKw9aZjPadVNP1PvZ6wJJjlWbef0="><link rel=stylesheet href=https://sammy.is-a.dev/css/syntax.min.15b8e0ecf65a922477149bf58193ea5a95abd43be230c2ff707166f8be480723.css integrity="sha256-Fbjg7PZakiR3FJv1gZPqWpWr1DviMML/cHFm+L5IByM="><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin=anonymous referrerpolicy=no-referrer><link href=https://cdn.jsdelivr.net/npm/victormono@latest/dist/index.min.css type=text/css rel=stylesheet></head><body><div class=bar><div class=place-left><h3>sammyette's place</h3><a href=https://discord.gg/3PDdcQz>☁ community</a>
+<a href=/>home</a>
+<a href=/blog>blog</a>
+<a href=/projects>projects</a></div><div class=place-right><a href=# id=theme-switch></a></div></div><div id=content><article><header class=post-header><h1 style=margin-bottom:0>Lite XL - A dream close to reality</h1><em><small><div class=post-metadata><time>April 9, 2022</time><p>•</p><p>3 min read</p></div></small></em></header><br><p>A text editor is one of the programs I spend the most time in, since in my free
+time I&rsquo;m working on a code project. Having a comfortable, extensible text editor
+is important to me.</p><p>I&rsquo;ve been happily using Neovim for the past 1-2 years by now. Before that, while
+on Windows, I was using Sublime Text around 3 years ago. Back then, I just
+needed something to code in with some kind of autocomplete. I started using
+Neovim a while after I moved to Linux and configured it in Vimscript with some
+simple plugins and things like CoC. I kinda got hooked to programming with Lua
+and using it for a lot of things (like <a href=https://github.com/Rosettea/Hilbish>Hilbish</a>)
+and moved my Neovim config to Lua.</p><p>Pan to around February and I was suggested to try Lite XL. I&rsquo;ve already heard of Lite
+(which Lite XL is a fork of) and tried both a year ago but at the time I thought
+it was lacking for me to use it. But now I daily drive it as my main and only text
+editor.</p><p>The title of this post mentions Lite XL being &ldquo;a dream close to reality,&rdquo; since
+one of the reasons I used Neovim was that since there were no good GUI text editors
+(except Sublime, but it also has some problems) but Lite XL is attractive for a few
+reasons:</p><ul><li><em>Fast and Lightweight</em> GUI text editor</li><li>Lua scripted</li><li>Almost the entire editor is written in Lua itself, which makes it <em>very</em> extensible</li></ul><p>The first point could be argued against Sublime, but Lite XL is way lighter than it by
+default. The C core is tiny, which means I can compile it in half a minute (!).
+I also mentioned that it is very extensible. With only a couple lines of code,
+I can put a clock at the corner of the screen. You can draw whatever on the
+Lite XL window, which brings a lot of creativity. It&rsquo;s how I made this <a href=https://github.com/TorchedSammy/Visu>visualizer</a>
+plugin.</p><p>There&rsquo;s also a few other plugins, including an <a href=https://github.com/lite-xl/lite-xl-lsp/>LSP</a>.
+If you need LSP kind icons by the way, <a href=https://github.com/TorchedSammy/lite-xl-lspkind>I have you covered.</a>
+The title of this post once again mentions Lite XL being a dream <em>close to reality.</em>
+There are/were a few problems I&rsquo;ve encountered. A first thing is <a href=https://github.com/lite-xl/lite-xl/issues/838>graphical bugs</a>
+due to my scaled screen. Another thing was that there was a few of plugins from
+the central plugin repository broken. There were a few other minor things, but
+close to all of these were fixed by using the master branch and using updated
+plugins.</p><p>Lite XL is still fairly new and gets a lot of new additions, like the
+status view no longer having hardcoded items and positions and instead has a
+nice API to add, hide and move items. I&rsquo;ve also contributed a bit, whether that
+is via discussion, the plugins and pull requests I&rsquo;ve made, like things to
+improve syntax highlighting for Go and Markdown.</p><p>There&rsquo;s still quite a few things missing. A lot of the things I had in Neovim
+I now don&rsquo;t have with Lite XL. Treesitter, which provided more advanced syntax
+highlighting, <a href=https://github.com/nvim-telescope/telescope.nvim>Telescope</a> and
+Breadcrumbs (they&rsquo;re a bit helpful and add to the look). LSP plugin doesn&rsquo;t have
+a few things like renaming and snippets but generally works well.</p><p>Would I recommend Lite XL? Yes, but it really depends on what you want/need.
+As mentioned, the extensiblity, speed and lightness are the main selling points
+but with a small ecosystem it just means if something quite general doesn&rsquo;t
+exist, you&rsquo;ll have to make it yourself, and anything niche is off the table.
+Atleast there&rsquo;s a <a href=https://github.com/eugenpt/lite-xl-vibe>Vim mode</a> plugin.</p><script src=https://giscus.app/client.js data-repo=TorchedSammy/torchedsammy.github.io data-repo-id="MDEwOlJlcG9zaXRvcnkyNzk5MDQ1OTA=" data-category=Announcements data-category-id=DIC_kwDOEK8BTs4CQrdA data-mapping=title data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=bottom data-theme=transparent_dark data-lang=en data-loading=lazy crossorigin=anonymous async></script></article></div><script src=https://sammy.is-a.dev/js/index.min.25bc1a51c849f067b5e2cd37c1ca428e9687dd3406410e30c5a2af0a02c535d7.js integrity="sha256-JbwaUchJ8Ge14s03wcpCjpaH3TQGQQ4wxaKvCgLFNdc="></script><hr><small><div class=bar><div class=place-left><p>(c) TorchedSammy 2022</p></div><div class=place-center><i class='fas fa-heart'></i></div><div class=place-right><p>made with <a href=https://gohugo.io/>hugo</a> & <a href=https://github.com/oxalorg/sakura>sakura</a></p></div></div></small></body></html>
