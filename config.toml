@@ -3,6 +3,7 @@ title = "sammyette's place"
 theme = "sakura"
 languageCode = "en-US"
 enableInlineShortcodes = true
+canonifyurls = true
 
 [params]
   lightSakura = "sakura"
