@@ -3,7 +3,8 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	margin-top: 0;
+	margin-top: 0.6em;
+	margin-bottom: 0.2em;
 }
 
 h1 {
@@ -38,7 +39,8 @@ h6 {
 		color: $color-fade;
 	}
 	display: flex;
-    align-items: baseline;
+	align-items: baseline;
+	margin-bottom: 1em;
 }
 
 .place-left {
@@ -87,5 +89,5 @@ h6 {
 }
 
 #theme-switch {
-	font-size: 1.2em;
+	font-size: 1.4em;
 }
