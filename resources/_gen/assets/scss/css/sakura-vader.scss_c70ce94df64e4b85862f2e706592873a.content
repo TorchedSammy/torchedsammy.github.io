@@ -190,7 +190,8 @@ body {
   max-width: 42em; }
 
 h1, h2, h3, h4, h5, h6 {
-  margin-top: 0; }
+  margin-top: 0.6em;
+  margin-bottom: 0.2em; }
 
 h1 {
   font-size: 1.8em; }
@@ -212,7 +213,8 @@ h6 {
 
 .bar {
   display: flex;
-  align-items: baseline; }
+  align-items: baseline;
+  margin-bottom: 1em; }
   .bar a {
     color: #DA4453; }
   .bar h1, .bar h2, .bar h3, .bar h4, .bar h5, .bar h6 {
@@ -257,4 +259,4 @@ h6 {
   border-radius: 50%; }
 
 #theme-switch {
-  font-size: 1.2em; }
+  font-size: 1.4em; }

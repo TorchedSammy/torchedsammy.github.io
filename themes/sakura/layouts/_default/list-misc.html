@@ -1,0 +1,17 @@
+{{ define "main" }}
+<body>
+{{- .Content -}}
+<ul>
+  {{ range where .Site.RegularPages "Section" "in" "misc" }}
+  <li>
+    <a href="{{ .Permalink }}">
+    {{ .Title }}
+    </a>
+    {{ if .Description }}
+      <em><small>- {{ .Description }}</small></em>
+    {{ end }}
+  </li>
+  {{- end }}
+</ul>
+</body>
+{{ end }}
