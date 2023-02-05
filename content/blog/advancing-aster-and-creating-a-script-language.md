@@ -1,7 +1,7 @@
 ---
 title: "Advancing Aster and Creating a Script Language"
 date: 2023-02-04T20:31:31-04:00
-draft: true
+draft: false
 ---
 
 *(All code here would be under the MIT license, because that might
