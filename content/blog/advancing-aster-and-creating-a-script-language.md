@@ -28,10 +28,10 @@ might say this is over-engineering for an "image colorizer" utility,
 I say that Aster being more capable and powerful than others in
 the small scope of what it does is a win for me.
 
-"Asterscript" (as an unofficial name) is designed to be easy to parse
-(hopefully). Any lone identifier is a command, and whatever after
-it are the arguments. This makes it pluggable as is for our shell,
-exactly like shell script.
+"Asterscript" (as an unofficial name) is designed to a (hopefully)
+easy to parse language for our shell. Any lone identifier is a command,
+and whatever after it are the arguments. This makes it pluggable as is
+for our use in a terminal shell.
 
 Here's a demo:
 ```
