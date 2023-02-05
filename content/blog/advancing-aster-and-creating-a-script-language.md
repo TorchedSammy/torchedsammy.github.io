@@ -413,7 +413,8 @@ for {
 ```
 
 ![](https://safe.kashima.moe/w401qu17w731.png)
-Awesome!
+
+> It tokenizes!
 
 ## Step 2: Parsing into an AST
 First of all: what is an AST?
@@ -461,7 +462,7 @@ type Value struct{
 	Kind ValueKind
 }
 ```
-And the `Kind` here would basically tell us the type is:
+And the `Kind` here would basically tell us what the type of the value is.
 ```go
 type ValueKind int
 const (
@@ -627,3 +628,4 @@ the "community" link at the top of this web page!
 
 [Aster]: https://github.com/TorchedSammy/Aster
 [Hilbish]: https://github.com/Rosettea/Hilbish
+[PR]: https://github.com/TorchedSammy/Aster/pull/2
