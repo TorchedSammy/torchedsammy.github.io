@@ -22,13 +22,7 @@ terminal (but honestly, doing that with some Lua might be another
 fun task...)
 
 # So.. Asterscript?
-Going through and making this was probably the most interesting thing
-I've done in a while, and while a few people on the r/Unixporn server
-might say this is over-engineering for an "image colorizer" utility,
-I say that Aster being more capable and powerful than others in
-the small scope of what it does is a win for me.
-
-"Asterscript" (as an unofficial name) is designed to a (hopefully)
+"Asterscript," as an unofficial name, is designed to a (hopefully)
 easy to parse language for our shell. Any lone identifier is a command,
 and whatever after it are the arguments. This makes it pluggable as is
 for our use in a terminal shell.
@@ -53,7 +47,7 @@ print "wow a number: " #h // as shown before (if you didnt notice) functions don
 Anyways, I'm talking about a *shell* for Aster. Here's the idea:
 - Offer a nicer experience to recolor (many) images
 - The ability for quick iteration. Don't like how it looks with a certain
-palette? Undo, apply a new palette and recolor again
+palette? Undo, apply a new palette and recolor again. Done in a few seconds.
 
 Writing a shell is easy, I've done it 2 times previously with a demo
 in Javascript and my biggest project [Hilbish]. For a basic version,
@@ -99,15 +93,13 @@ package main
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/chzyer/readline"
 )
 
 func runCli() {
-	rl, err := readline.New("> ")
-	if err != nil {
-		return 1, err
-	}
+	rl, _ := readline.New("-> ")
 
 	for {
 		line, err := rl.Readline()
@@ -120,7 +112,8 @@ func runCli() {
 }
 ```
 
-*TODO: screenshots*
+![](https://safe.kashima.moe/ucjbhn7v8ut4.png)
+> World's most useless shell.
 
 ## Commands
 Next, we have to make sure that users can actually run
@@ -159,16 +152,16 @@ for {
 	cmd, args := parseLine(line)
 	switch cmd {
 		case "hello":
-			if len(cmd.args) == 0 {
+			if len(args) == 0 {
 				fmt.Println("Hello world!")
 			} else {
-				fmt.Printf("Hello %s!", cmd.args[0])
+				fmt.Printf("Hello %s!", args[0])
 			}
 	}
 }
 ```
 
-*TODO: screenshots*
+![](https://safe.kashima.moe/34ite5s4tua7.png)
 
 We can add any other commands the same way. The next one we
 need to do is a load command for an image. Before that, I
@@ -223,9 +216,12 @@ func (s *cliState) undoImg() {
 ```
 
 # The Scripting Language
-The exiting part!  
+> The exiting part!
+
 At the current point, the Aster shell works good enough; we have commands
-defined in a basic way and they run. But to add a little spice to it.
+defined in a basic way and they run. But to add a little spice to it
+and make it better, we can design a scripting language for our shell.
+
 An advantage is that a user will be able to define certain filters
 so that if they want an image to appear a specific way all the time.
 A simple example of that is a single command to turn an image monochrome
@@ -247,7 +243,7 @@ We will define a set of tokens:
 ```go
 type Token int
 const (
-	EOF
+	EOF Token = iota
 
 	IDENT
 	STRING
@@ -273,6 +269,8 @@ func NewLexer(reader io.Reader) *Lexer {
 	}
 }
 ```
+The reason for using `bufio` here is that we need to be able
+to unread a character.
 
 So to actually lex our source into tokens, we'll have this `Next`
 function that can be ran in a loop to get a list of tokens
@@ -313,10 +311,6 @@ let's have it turn `"hello world"` into a string token:
 And our scanString function will be like so:
 ```go
 func (l *Lexer) scanString() string {
-	// a string builder is an efficient structure
-	// for ... building strings.
-	// strings are immutable in go, so appending to one means
-	// a new allocation
 	sb := strings.Builder{}
 
 	for {
@@ -386,8 +380,40 @@ func (l *Lexer) scanIdent() string {
 With this code here, it's pretty easy to plug in new matches for 
 something like a number.
 
-![](https://safe.kashima.moe/s7ufxm1w1139.png)  
-And we can list out our tokens!
+We'll add a `String` method to our token type to be able to see
+what token it is easily.
+```go
+var tokenIdentMap = map[Token]string{
+	EOF: "EOF",
+
+	IDENT: "IDENT",
+	STRING: "STRING",
+}
+
+func (t Token) String() string {
+	name := tokenIdentMap[t]
+	return name
+}
+```
+
+Let's make our shell tokenize user input into tokens and then print
+them. This will be done after we print the line in our shell loop.
+```go
+// turns our line into an io.Reader interface
+lx := NewLexer(strings.NewReader(line))
+
+for {
+	token, pos, lit := lx.Next()
+	if token == EOF {
+		break
+	}
+
+	fmt.Printf("%d:%d %s %s\n", pos.Line, pos.Column, token, lit)
+}
+```
+
+![](https://safe.kashima.moe/w401qu17w731.png)
+Awesome!
 
 ## Step 2: Parsing into an AST
 First of all: what is an AST?
@@ -404,58 +430,200 @@ We can handle showing syntax errors in the parsing step and make it
 easy to represent our source code into something easily executable!
 (or something so)
 
-Now, I don't want to show my code for parsing here because I think
-it's a bit of a mess, but imagine that you have a function that
-loops over tokens and creates a list of nodes based on those
-tokens.
-
-Here's a basic jist of it:
+The first step I did was declare an interface for all nodes in our
+AST to implement. This is based on Go's own AST package.
 ```go
-type Identifier struct{
-	Name string // name of identifier
+type Node interface{
+	Start() Position
+	End() Position
+}
+```
+
+Now I declare some structs for the basic parts of Asterscript's 
+syntax. One of those would be running a command (or calling a function):
+```go
+type Call struct {
 	Pos Position
+	Name string // name of command
 }
 
-type LiteralType int
+func (c Call) Start() Position { return c.Pos }
+func (c Call) End() Position { return c.Pos }
+```
+Functions can have arguments passed to them though right? So we need to
+store that in our Call struct. But what type would they be?
+
+I made a Value type to hold Asterscript values:
+```go
+type Value struct{
+	Pos Position
+	Val string
+	Kind ValueKind
+}
+```
+And the `Kind` here would basically tell us the type is:
+```go
+type ValueKind int
 const (
-	StringLiteral LiteralType = iota
+	EmptyKind ValueKind = iota
+	StringKind
 )
-
-type Literal struct{
-	Value string
+```
+So then we can add it to our Call struct:
+```go
+type Call struct {
 	Pos Position
-	Typ LiteralType
+	Name string // name of command
+	Arguments []Value // arguments to the command
 }
+```
 
-func Parse(r io.Reader) {
+Now we can go ahead and attempt parsing! We will have a very basic
+parser that only attempts to parse calls. In our parse function,
+the first step is to get a new lexer so we can loop over the tokens,
+and also have a slice to store our nodes:
+```go
+func Parse(r io.Reader) ([]Node, error) {
 	lx := NewLexer(r)
 
-	// for simplicity in this blog post: you'd want to use an actual interface
-	ops := []interface{}
+	ops := []Node{}
+	for {
+		token, pos, lit := lx.Next()
+		if token == EOF { // stop at the end of the source
+			break
+		}
+	}
+
+	return ops, nil
+}
+```
+
+Now is the real step of going ahead and parsing. Remember when I said:
+> Any lone identifier is a command, and whatever after it are the arguments.
+This makes it pluggable as is for our use in a terminal shell.
+
+Which means that we can assume an IDENT token is a command, and for
+simplicity we can expect 1 string afterwards to be the argument to it.
+So we can have this in our loop:
+```go
+switch token {
+	case IDENT:
+		// if we're here then we're assuming this is a call
+		node := Call{
+			Pos: pos, // use the reported position from the token
+			Name: lit, // And lit is what was tokenized as an identifier
+		}
+
+		// assume next token to be a string
+		_, pos, lit := lx.Next()
+		arg := Value{
+			Pos: pos,
+			Val: lit,
+			Kind: StringKind,
+		}
+		node.Arguments = []Value{arg}
+		ops = append(ops, node)
+}
+```
+
+## Step 3: Interpreting
+What good is a scripting language that can't be used to script!?
+We need now need to run our code, based on the nodes that the AST gives
+us.
+
+So let's make a function to interpret our language:
+```go
+func Run(r io.Reader) {
+	nodes, _ := Parse(r)
+
+	for _, node := range nodes {
+		// [...]
+	}
+}
+```
+
+Since the only AST node we have is just a Call, that's all we'll
+check for, but it's still good to use a switch anyway to
+add new cases.
+
+So that gets added in our loop:
+```go
+// we can have a switch statement based on what concrete type
+// we have because node is an interface!
+switch n := node.(type) {
+	case Call:
+		// [...]
+}
+```
+
+Hmm.. how are we going to have commands stored to call them?
+First let's have a type for our commands:
+```go
+type Command func([]Value) // a command is passed a list of arguments
+```
+
+And then we can have a simple map to store them and at
+the same time make a print function. We do this right before our parse loop.
+```go
+commands := make(map[string]Command)
+
+commands["print"] = func(v []Value) {
+	fmt.Println(v[0].Val)
+}
+```
+
+Let's make our interpreter run this now.
+```go
+switch n := node.(type) {
+	case Call:
+		commandName := n.Name
+		cmd := commands[commandName]
+
+		cmd(n.Arguments)
+}
+```
+
+Let's go back to our shell loop and remove our parseLine call and
+the switch block under it, since we can just use our new Run function.
+That leaves us with:
+```go
+for {
+	line, err := rl.Readline()
+	if err == io.EOF { // exit on ctrld
+		break
+	}
+
+	fmt.Println(line)
+	lx := NewLexer(strings.NewReader(line))
+
 	for {
 		token, pos, lit := lx.Next()
 		if token == EOF {
 			break
 		}
 
-		case IDENT:
-			ops = append(ops, Identifier{
-				Name: lit,
-				Pos: pos,
-			})
-		case STRING:
-			ops = append(ops, Literal{
-				Value: lit,
-				Pos: pos
-				Typ: StringLiteral,
-			})
-		// [...]
+		fmt.Printf("%d:%d %s %s\n", pos.Line, pos.Column, token, lit)
 	}
+
+	Run(strings.NewReader(line))
 }
 ```
 
-## Step 3: Interpreting
-TODO
+Now when we go to our shell and try to run that print command:
+![](https://safe.kashima.moe/mjt7h4ulkg6h.png)
+> It lives!
+
+# Ending Off
+This was honestly one of the most fun things I have made recently.
+I like working on Hilbish and my other projects, but this was *exciting.*
+
+I'll be working on making Asterscript more advanced for my use case,
+like the math shown in the example at the beginning. Should it be based
+on precedence? Whitespace-sensitive like Go, or just evaluate in order
+with parentheses? Who knows.
+
+You can check out more progress at my [PR] and my Discord server,
+the "community" link at the top of this web page!
 
 [Aster]: https://github.com/TorchedSammy/Aster
 [Hilbish]: https://github.com/Rosettea/Hilbish
