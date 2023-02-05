@@ -4,8 +4,8 @@ date: 2023-02-04T20:31:31-04:00
 draft: false
 ---
 
-*(All code here would be under the MIT license, because that might
-be needed.)*
+> (All code here would be under the MIT license, because that might
+be needed.)
 
 Recently I was motivated to work on [Aster] again. A few months
 ago I added support for getting palettes from various sources,
@@ -21,6 +21,34 @@ tool after all, and a simple one, not a masochistic GIMP in the
 terminal (but honestly, doing that with some Lua might be another
 fun task...)
 
+# So.. Asterscript?
+Going through and making this was probably the most interesting thing
+I've done in a while, and while a few people on the r/Unixporn server
+might say this is over-engineering for an "image colorizer" utility,
+I say that Aster being more capable and powerful than others in
+the small scope of what it does is a win for me.
+
+"Asterscript" (as an unofficial name) is designed to be easy to parse
+(hopefully). Any lone identifier is a command, and whatever after
+it are the arguments. This makes it pluggable as is for our shell,
+exactly like shell script.
+
+Here's a demo:
+```
+// comments are written like this
+
+// set a custom prompt
+prompt "-> "
+
+// load our image file for operations
+load "filename"
+lightnessSwap
+recolor @dither=false // @name would be switches (commandoptions) but im skeptical about the syntax
+
+var h = 6 / #pi // # references variables, and pi is builtin
+print "wow a number: " #h // as shown before (if you didnt notice) functions dont need parens
+```
+
 # The Shell Part
 Anyways, I'm talking about a *shell* for Aster. Here's the idea:
 - Offer a nicer experience to recolor (many) images
@@ -28,13 +56,13 @@ Anyways, I'm talking about a *shell* for Aster. Here's the idea:
 palette? Undo, apply a new palette and recolor again
 
 Writing a shell is easy, I've done it 2 times previously with a demo
-in Javascript and my biggest project [Hilbish]. We just need to split
-up a string into some parts, check what the first part is and run some code
-based on that.
+in Javascript and my biggest project [Hilbish]. For a basic version,
+We just need to split up a string into some parts, check what the first
+part is and run some code based on that.
 
 Added a flag to enable this shell/CLI mode:
 ```go
-cliFlag := pflag.BoolP("cli", "c", false, "Use the Aster command line shell")
+cliFlag := flag.BoolP("cli", "c", false, "Use the Aster command line shell")
 
 // ...
 
@@ -83,12 +111,8 @@ func runCli() {
 
 	for {
 		line, err := rl.Readline()
-		if err != nil {
-			if err == io.EOF { // exit on Ctrl-D
-				return 0, nil
-			}
-
-			return 2, err
+		if err == io.EOF { // exit on ctrld
+			return 0, nil
 		}
 
 		fmt.Println(line)
@@ -106,14 +130,17 @@ is very easy:
 ```go
 func parseLine(line string) (string, []string) {
 	line = strings.TrimSpace(line) // remove whitespace
-
 	fields := strings.Split(line, " ")
 
 	var name string
 	args := []string{}
+	// loop over our split up input
 	for i, field := range fields {
+		// if this is the first field, we can assure it's the command
+		// so set the name and then go to the next step of just pushing args
+		// to our slice
 		if i == 0 {
-			name = strings.ToLower(field)
+			name = field
 			continue
 		}
 
@@ -144,7 +171,7 @@ for {
 *TODO: screenshots*
 
 We can add any other commands the same way. The next one we
-need to do is a load command for an image. Before that, O
+need to do is a load command for an image. Before that, I
 created a struct for the "state" which will store the image we're working with:
 ```go
 type cliState struct{
@@ -160,18 +187,10 @@ Add the state somewhere before our shell loop, and then make the load command:
 		}
 
 		path := cmd.args[0]
-		f, err := os.Open(path)
-		if err != nil {
-			fmt.Println("Could not open input file")
-			continue
-		}
+		f, _ := os.Open(path) // ignore error for more clarity
 
 		// !! don't forget to import supported formats !!
 		img, _, err := image.Decode(f)
-		if err != nil {
-			fmt.Println("Could not decode image:", err)
-			continue
-		}
 
 		state.workingImage = img
 ```
@@ -179,9 +198,29 @@ Add the state somewhere before our shell loop, and then make the load command:
 ## Other Features
 You know how I mentioned undo as one of our advantages for this shell?
 That's easy: store a slice of images and whenever a change was
-made, append the edited image to our slice.
+made, append the edited image to our slice. We can do that in our
+previously declared cliState struct:
+```go
+type cliState struct{
+	workingImage image.Image
+	prevImageStates []image.Image
+}
+```
 
 Then to actually undo that, we can reslice to set the current working image.
+We'll make a convenient function to do that:
+```go
+func (s *cliState) undoImg() {
+	prevIdx := len(s.prevImageStates) - 1
+	// get the last image before the current one
+	prevWorkingImg := s.prevImageStates[prevIdx]
+	// and then "pop" remove it from our slice
+	s.prevImageStates = s.prevImageStates[:prevIdx]
+
+	// so now we can set the current image to work on as the last image
+	s.workingImage = prevWorkingImg
+}
+```
 
 # The Scripting Language
 The exiting part!  
@@ -241,20 +280,20 @@ from a source file:
 ```go
 func (l *Lexer) Next() (Token, Position, string) {
 	for {
+		// to explain it very very simply, a rune
+		// is a character in go. so here, we're reading
+		// character by character
 		r, _, err := l.reader.ReadRune()
-		if err != nil {
-			if err == io.EOF {
-				return EOF, l.pos, ""
-			}
-
-			panic(err) // ?
+		// may want to check for other errors
+		// but if we reach eof we're done
+		if err == io.EOF {
+			return EOF, l.pos, ""
 		}
 
 		l.pos.Column++
 
 		switch r {
 			case '\n':
-				// do things with newLine
 				l.pos.Line++
 				l.pos.Column = 0
 		}
@@ -274,16 +313,18 @@ let's have it turn `"hello world"` into a string token:
 And our scanString function will be like so:
 ```go
 func (l *Lexer) scanString() string {
+	// a string builder is an efficient structure
+	// for ... building strings.
+	// strings are immutable in go, so appending to one means
+	// a new allocation
 	sb := strings.Builder{}
-	escaped := false
 
 	for {
 		r, _, err := l.reader.ReadRune()
-		if err != nil {
-			if err == io.EOF {
-				return sb.String()
-			}
+		if err == io.EOF {
+			return sb.String()
 		}
+
 		l.pos.Column++
 
 		switch r {
@@ -298,7 +339,7 @@ func (l *Lexer) scanString() string {
 
 Next, we'll want to parse identifiers. This can go in our default
 case for the switch statement.
-```
+```go
 	default:
 		if unicode.IsLetter(r) {
 			start := l.pos
@@ -325,10 +366,8 @@ func (l *Lexer) scanIdent() string {
 
 	for {
 		r, _, err := l.reader.ReadRune()
-		if err != nil {
-			if err == io.EOF {
-				return sb.String()
-			}
+		if err == io.EOF {
+			return sb.String()
 		}
 
 		l.pos.Column++
@@ -418,22 +457,5 @@ func Parse(r io.Reader) {
 ## Step 3: Interpreting
 TODO
 
-# So.. Asterscript?
-Going through and making this was probably the most interesting thing
-I've done in a while, and while a few people on the r/Unixporn server
-might say this is over-engineering for an "image colorizer" utility,
-I say that Aster being more capable and powerful than others in
-the small scope of what it does is a win for me.
-
-"Asterscript" as an unofficial name, is designed for it to be easy to
-parse (hopefully). Any lone identifier is a command, and whatever after
-it are the arguments. This makes it pluggable as is for our shell,
-exactly like shell script.
-
-Here's a demo:
-```
-var #who = "world"
-print "hello"
-print #who
-```
-which should print "hello" and then "world" on separate lines.
+[Aster]: https://github.com/TorchedSammy/Aster
+[Hilbish]: https://github.com/Rosettea/Hilbish
