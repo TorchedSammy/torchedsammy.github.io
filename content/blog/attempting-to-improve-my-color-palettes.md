@@ -31,7 +31,8 @@ Let's see what kind of color we get if we use this LAB color picker to
 get a pink based on the lightness of red.
 
 ![](https://safe.kashima.moe/gaqel6gmn3q8.png)
-That's.. terrible, and it was the best fit.
+
+That's.. terrible, and it was the best fit I could get.
 
 Let's try a different color as a base? Yellow maybe, since it's hard to get a
 good yellow at low lightness.
