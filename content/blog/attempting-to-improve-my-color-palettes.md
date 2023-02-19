@@ -1,7 +1,7 @@
 ---
 title: "Attempting to Improve My Colorscheme"
 date: 2023-02-10T11:11:47-04:00
-draft: true
+draft: false
 ---
 
 I've made a few custom colorschemes before to fit in with
@@ -15,11 +15,11 @@ color picker and using what seems fit to me, but that does have some issues.
 If you look at this image here, you might notice that pink is the
 brightest color here, quite a bit more than the others.
 
-In the LAB color space, it looks like this:
+In the LAB color space, it looks like this:  
 ![](https://safe.kashima.moe/ys470zn2ms7p.png)
 Notice the lightness value here.
 
-If we compare another color, like maybe red or purple, this is the result:
+If we compare another color, like maybe red or purple, this is the result:  
 ![My red in the LAB color space](https://safe.kashima.moe/db3megu8y6dq.png)
 
 ![My purple in the LAB color space](https://safe.kashima.moe/fbgx7z8cq956.png)
@@ -40,7 +40,7 @@ good yellow at low lightness.
 
 Terrible again.
 
-Instead, I'll go with a different color space, specifically OKLCH.
+Instead, I'll go with a different color space, specifically OKLCH.  
 ![](https://safe.kashima.moe/m6l5g4gkorai.png)
 
 In this case I had to edit some of the values shown here (chroma and hue)
@@ -50,7 +50,7 @@ selected color in a wider gamut, which basically just means there are more
 colors those monitors can show for more vibrance. So now, let's try
 reconstructing our colors based on this pink.
 
-That gives us this:
+That gives us this:  
 ![](https://safe.kashima.moe/5n7n2kvyruy1.png)
 ![](https://safe.kashima.moe/bvssl6cyh76z.png)
 
@@ -64,7 +64,7 @@ match exactly and would still look good enough. So I took the other
 colors and changed them around to fit close enough in lightness
 while looking nice enough for me.
 
-So with all that, we have the final version:
+So with all that, we have the final version:  
 ![](https://safe.kashima.moe/7ex22ozv67va.png)
 ![](https://safe.kashima.moe/x8bw1mvf2hjl.png)
 
