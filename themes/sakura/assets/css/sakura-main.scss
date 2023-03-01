@@ -73,6 +73,7 @@ hr {
 a {
     text-decoration: none;
     color: $color-blossom;
+    border-bottom: 2px solid transparent;
 
     &:visited {
         color: darken($color-blossom, 10%);
