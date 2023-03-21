@@ -62,15 +62,16 @@ small, sub, sup {
   font-size: 75%; }
 
 hr {
-  border-color: #eb99a1; }
+  border-color: #a9a6a1; }
 
 a {
   text-decoration: none;
-  color: #eb99a1; }
+  color: #a9a6a1;
+  border-bottom: 2px solid transparent; }
   a:visited {
-    color: #e26f7a; }
+    color: #908d87; }
   a:hover {
-    color: #DA4453;
+    color: #272624;
     border-bottom: 2px solid #4a4a4a; }
 
 ul {
@@ -88,7 +89,7 @@ blockquote {
   padding-top: 0.8em;
   padding-bottom: 0.8em;
   padding-right: 0.8em;
-  border-left: 5px solid #eb99a1;
+  border-left: 5px solid #a9a6a1;
   margin-bottom: 2.5rem;
   background-color: #f1f1f1; }
 
@@ -137,7 +138,7 @@ td, th {
 input, textarea {
   border: 1px solid #4a4a4a; }
   input:focus, textarea:focus {
-    border: 1px solid #eb99a1; }
+    border: 1px solid #a9a6a1; }
 
 textarea {
   width: 100%; }
@@ -148,18 +149,18 @@ textarea {
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
-  background-color: #eb99a1;
+  background-color: #a9a6a1;
   color: #f9f9f9;
   border-radius: 1px;
-  border: 1px solid #eb99a1;
+  border: 1px solid #a9a6a1;
   cursor: pointer;
   box-sizing: border-box; }
   .button[disabled], button[disabled], input[type="submit"][disabled], input[type="reset"][disabled], input[type="button"][disabled] {
     cursor: default;
     opacity: .5; }
   .button:focus:enabled, .button:hover:enabled, button:focus:enabled, button:hover:enabled, input[type="submit"]:focus:enabled, input[type="submit"]:hover:enabled, input[type="reset"]:focus:enabled, input[type="reset"]:hover:enabled, input[type="button"]:focus:enabled, input[type="button"]:hover:enabled {
-    background-color: #DA4453;
-    border-color: #DA4453;
+    background-color: #272624;
+    border-color: #272624;
     color: #f9f9f9;
     outline: 0; }
 
@@ -174,11 +175,11 @@ textarea, select, input {
   box-shadow: none;
   box-sizing: border-box; }
   textarea:focus, select:focus, input:focus {
-    border: 1px solid #eb99a1;
+    border: 1px solid #a9a6a1;
     outline: 0; }
 
 input[type="checkbox"]:focus {
-  outline: 1px dotted #eb99a1; }
+  outline: 1px dotted #a9a6a1; }
 
 label, legend, fieldset {
   display: block;
@@ -215,9 +216,9 @@ h6 {
   align-items: baseline;
   margin-bottom: 1em; }
   .bar a {
-    color: #DA4453; }
+    color: #272624; }
   .bar h1, .bar h2, .bar h3, .bar h4, .bar h5, .bar h6 {
-    color: #DA4453; }
+    color: #272624; }
 
 .place-left {
   display: flex;
