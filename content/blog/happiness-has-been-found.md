@@ -19,7 +19,7 @@ have changed.
 Some of you may know me and the fact that I am a lonely guy
 (or was - will talk about soon) that makes things and plays games,
 and also does that on probably world's worst laptop. Both of those things
-have changed or will!!
+have changed or will change!!
 
 ## New Laptop
 I have not actually gotten the new laptop yet. I am writing this post on
@@ -29,9 +29,9 @@ all time.
 
 The new laptop in question is an [Acer Aspire Vero](https://www.amazon.com/gp/aw/d/B09R63Z5L7/ref=ox_sc_act_image_3?smid=ATVPDKIKX0DER&psc=1)
 that has a good CPU, nice amount of RAM, and is at a good price because
-a man's poor. I will also be getting a 2TB SSD with it to store all
-the new games I'll be able to play like Final Fantasy XIV Online!! (I
-shall write about this soon as well)
+a man's poor and needs a good but cheap laptop, though I will also be getting
+a 2TB SSD with it to store all the new games I'll be able to play like
+Final Fantasy XIV Online!! (I shall write about this soon as well).
 
 ## Socializing and Relationships
 The most important part in this post.
@@ -64,9 +64,8 @@ So I have one of those now. A girlfriend. Literally nobody will believe
 but yes, real person, real events. I am not delusional (yet) so
 I don't need to take schizo pills for her to disappear, and with all that
 happening, I am glad to announce that happiness has been found.
-
-> That was a good reference to the title of the blog, wasn't it.
+That was a good reference to the title of the blog, wasn't it?
 
 There was some circumstances that could have made everything not happen at all,
 but now I have a loving person who will play Minecraft with me and will do
-~~hand holding~~ pair programming with. I think.
+some pair programming with me ~~(and hand holding)~~. I think.
