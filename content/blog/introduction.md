@@ -1,7 +1,7 @@
 ---
-title: "Introduction"
-date: 2021-10-21T07:30:56-04:00
-draft: false
+title = "Introduction"
+date = "2021-10-21T07:30:56-04:00"
+draft = false
 ---
 
 I feel like I should make a more general introduction post to tell more info

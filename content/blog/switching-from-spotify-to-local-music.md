@@ -1,7 +1,7 @@
 ---
-title: "Switching from Spotify to Local Music"
-date: 2021-10-31T21:06:15-04:00
-draft: false
+title = "Switching from Spotify to Local Music"
+date = "2021-10-31T21:06:15-04:00"
+draft = false
 ---
 
 As I mentioned in one of my posts before, I like listening to music. Who doesn't?

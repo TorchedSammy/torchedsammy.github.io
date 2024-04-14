@@ -1,8 +1,8 @@
 ---
-title: "Happiness Has Been Found"
-date: 2023-05-17T23:46:51-04:00
-draft: false
-description: You will not believe what has happened in the past few months (!!!)
+title = "Happiness Has Been Found"
+date = "2023-05-17T23:46:51-04:00"
+draft = false
+description = "You will not believe what has happened in the past few months (!!!)"
 ---
 
 Hello! I have not written a blog post in a while (around 3 months)
@@ -10,6 +10,7 @@ and I am glad to announce that this is basically a life update
 or piece about mental health that will be positive!
 
 ## Firstly, some backstory?
+
 About a year or 2 ago, I wrote [this post here](../happiness)
 that isn't exactly positive because life was not exactly positive.
 It was kinda boring even though there was some things I enjoyed doing
@@ -22,6 +23,7 @@ and also does that on probably world's worst laptop. Both of those things
 have changed or will change!!
 
 ## New Laptop
+
 I have not actually gotten the new laptop yet. I am writing this post on
 the ancient "chairtop" still (will make a mini post for my beloved laptop
 soon), but in a week or two I will have gone through the greatest upgrade of
@@ -34,6 +36,7 @@ a 2TB SSD with it to store all the new games I'll be able to play like
 Final Fantasy XIV Online!! (I shall write about this soon as well).
 
 ## Socializing and Relationships
+
 The most important part in this post.
 
 Ever since a few months ago, at a certain sporting event, I have met
@@ -52,6 +55,7 @@ that alone time into hangouts with a special someone and gaming *with*
 that someone.
 
 ### Friendgirl??
+
 Now, I am terrible with hints. I have seen Reddit posts and YouTube videos
 about *other guys* being terrible with hints. They are not quite obvious.
 So you know the person I just mentioned about talking to daily and liking a lot?

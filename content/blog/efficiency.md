@@ -1,7 +1,7 @@
 ---
-title: "Efficiency"
-date: 2021-11-09T21:26:33-04:00
-draft: false
+title = "Efficiency"
+date = "2021-11-09T21:26:33-04:00"
+draft = false
 ---
 
 *Usually* I try to be as efficient as possible when doing things. I also

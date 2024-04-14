@@ -1,7 +1,7 @@
 ---
-title: "Software Names"
-date: 2021-11-05T10:06:58-04:00
-draft: false
+title = "Software Names"
+date = "2021-11-05T10:06:58-04:00"
+draft = false
 ---
 
 Naming things is hard, especially new projects and software.

@@ -1,7 +1,7 @@
 ---
-title: "Redesigning My Website"
-date: 2022-08-07T17:57:07-04:00
-draft: false
+title = "Redesigning My Website"
+date = "2022-08-07T17:57:07-04:00"
+draft = false
 ---
 
 Look! I redesigned my website. No longer will my blog and home page look
@@ -13,6 +13,7 @@ my blogs. This means that I now have both my blog content and my site
 content in one place, and that they look exactly the same.
 
 # But why?
+
 Because I wanted to.
 I like Hugo. I see most people using it just for blogs but
 forget that it's just a plain (not so much) static site generator.
@@ -28,6 +29,7 @@ landing page for them, but basically fell off after I stopped.
 You might guess that I styled this entirely by myself, but that would be wrong.
 
 # Introducing Sakura
+
 (Or maybe, sakura, all lowercase)  
 This is a minimal CSS framework (link at the footer) that "turns any
 ugly-looking 1900s website to a pretty, modern website" according to the

@@ -1,7 +1,7 @@
 ---
-title: "Terminal Emulators"
-date: 2021-11-03T23:43:40-04:00
-draft: false
+title = "Terminal Emulators"
+date = "2021-11-03T23:43:40-04:00"
+draft = false
 ---
 
 Yesterday I decided to make a custom status line for my Neovim config. In the status

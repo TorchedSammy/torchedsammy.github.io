@@ -1,7 +1,7 @@
 ---
-title: "Emptiness"
-date: 2021-10-29T12:37:04-04:00
-draft: false
+title = "Emptiness"
+date = "2021-10-29T12:37:04-04:00"
+draft = false
 ---
 
 A lot of people wish that they could have free time to do whatever they want,

@@ -1,7 +1,7 @@
 ---
-title: "Attempting to Improve My Colorscheme"
-date: 2023-02-10T11:11:47-04:00
-draft: false
+title = "Attempting to Improve My Colorscheme"
+date = "2023-02-10T11:11:47-04:00"
+draft = false
 ---
 
 I've made a few custom colorschemes before to fit in with

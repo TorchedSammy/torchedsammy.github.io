@@ -1,7 +1,7 @@
 ---
-title: "Motivation and Self-esteem"
-date: 2021-10-22T09:23:18-04:00
-draft: false
+title = "Motivation and Self-esteem"
+date = "2021-10-22T09:23:18-04:00"
+draft = false
 ---
 
 I sometimes wonder how people keep motivated to work on projects or do certain

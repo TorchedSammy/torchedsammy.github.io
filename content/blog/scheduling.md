@@ -1,7 +1,7 @@
 ---
-title: "Organization & Scheduling"
-date: 2021-10-28T23:07:34-04:00
-draft: false
+title = "Organization & Scheduling"
+date = "2021-10-28T23:07:34-04:00"
+draft = false
 ---
 
 For the most part, I try to be as organized as possible. There's times where I

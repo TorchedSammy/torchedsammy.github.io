@@ -1,7 +1,7 @@
 ---
-title: "Kdramas"
-date: 2021-10-26T19:22:46-04:00
-draft: false
+title = "Kdramas"
+date = "2021-10-26T19:22:46-04:00"
+draft = false
 ---
 
 Good entertainment for me is thrilling (melo)drama. I mentioned in one of my previous

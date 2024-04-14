@@ -1,7 +1,7 @@
 ---
-title: "Fostering a Discord Community"
-date: 2021-10-23T18:25:37-04:00
-draft: false
+title = "Fostering a Discord Community"
+date = "2021-10-23T18:25:37-04:00"
+draft = false
 ---
 
 I like owning and managing Discord communities. I enjoy bringing people together and

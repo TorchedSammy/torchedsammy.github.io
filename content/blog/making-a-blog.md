@@ -1,7 +1,7 @@
 ---
-title: "Making a Blog"
-date: 2021-10-20T22:35:44-04:00
-draft: false
+title = "Making a Blog"
+date = "2021-10-20T22:35:44-04:00"
+draft = false
 ---
 
 Hello, sammy here. A blog!  

@@ -1,7 +1,7 @@
 ---
-title: "Lite XL - A dream close to reality"
-date: 2022-04-09T23:58:40-04:00
-draft: false
+title = "Lite XL - A dream close to reality"
+date = "2022-04-09T23:58:40-04:00"
+draft = false
 ---
 
 A text editor is one of the programs I spend the most time in, since in my free

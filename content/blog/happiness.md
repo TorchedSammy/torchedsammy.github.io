@@ -1,7 +1,7 @@
 ---
-title: "Happiness"
-date: 2022-08-15T19:25:00-04:00
-draft: false
+title = "Happiness"
+date = "2022-08-15T19:25:00-04:00"
+draft = false
 ---
 
 Another blog post about my mental health! Awesome.  

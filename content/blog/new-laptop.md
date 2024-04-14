@@ -1,7 +1,7 @@
 ---
-title: "New Laptop"
-date: 2023-07-11T00:05:08-04:00
-draft: false
+title = "New Laptop"
+date = "2023-07-11T00:05:08-04:00"
+draft = false
 ---
 
 Welcome to another blog post, the first one on my cool new laptop.

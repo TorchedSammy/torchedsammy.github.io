@@ -1,7 +1,7 @@
 ---
-title: "Why I Like Kpop (and other non-English music)"
-date: 2021-10-25T19:36:47-04:00
-draft: false
+title = "Why I Like Kpop (and other non-English music)"
+date = "2021-10-25T19:36:47-04:00"
+draft = false
 ---
 
 I like listening to music, it's easy and accessible. Unlike video media where I

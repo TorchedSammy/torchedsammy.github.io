@@ -1,8 +1,8 @@
 ---
-title: "Please Make Your APIs Restful"
-date: 2021-11-16T22:33:15-05:00
-draft: false
-description: And have proper docs also.
+title = "Please Make Your APIs Restful"
+date = 2021-11-16T22:33:15-05:00
+draft = false
+description = "And have proper docs also."
 ---
 
 Have you ever been working on something but it doesn't work properly

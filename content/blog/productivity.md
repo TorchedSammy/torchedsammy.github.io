@@ -1,7 +1,7 @@
 ---
-title: "Productivity"
-date: 2021-10-27T21:10:33-04:00
-draft: false
+title = "Productivity"
+date = "2021-10-27T21:10:33-04:00"
+draft = false
 ---
 
 I like looking at statistics sometimes. Charts, graphs or whatever, they look nice. This is why

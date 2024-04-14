@@ -1,15 +1,15 @@
 ---
-title: "Advancing Aster and Creating a Script Language"
-date: 2023-02-04T20:31:31-04:00
-draft: false
+title = "Advancing Aster and Creating a Script Language"
+date = "2023-02-04T20:31:31-04:00"
+draft = false
 ---
 
 > (All code here would be under the MIT license, because that might
 be needed.)
 
-Recently I was motivated to work on [Aster] again. A few months
+Recently I was motivated to work on [Aster][Aster] again. A few months
 ago I added support for getting palettes from various sources,
-like from a `.Xresources` file, from Pywal, and from a list
+like from a ``.Xresources`` file, from Pywal, and from a list
 of hex numbers.
 
 An idea I have had in mind for a while was a command line shell,
@@ -22,12 +22,14 @@ terminal (but honestly, doing that with some Lua might be another
 fun task...)
 
 # So.. Asterscript?
+
 "Asterscript," as an unofficial name, is designed to a (hopefully)
 easy to parse language for our shell. Any lone identifier is a command,
 and whatever after it are the arguments. This makes it pluggable as is
 for our use in a terminal shell.
 
 Here's a demo:
+
 ```
 // comments are written like this
 
@@ -44,17 +46,19 @@ print "wow a number: " #h // as shown before (if you didnt notice) functions don
 ```
 
 # The Shell Part
+
 Anyways, I'm talking about a *shell* for Aster. Here's the idea:
 - Offer a nicer experience to recolor (many) images
 - The ability for quick iteration. Don't like how it looks with a certain
 palette? Undo, apply a new palette and recolor again. Done in a few seconds.
 
 Writing a shell is easy, I've done it 2 times previously with a demo
-in Javascript and my biggest project [Hilbish]. For a basic version,
+in Javascript and my biggest project [Hilbish][Hilbish]. For a basic version,
 We just need to split up a string into some parts, check what the first
 part is and run some code based on that.
 
 Added a flag to enable this shell/CLI mode:
+
 ```go
 cliFlag := flag.BoolP("cli", "c", false, "Use the Aster command line shell")
 
@@ -70,6 +74,7 @@ if *cliFlag {
 ```
 
 and the `runCli` function:
+
 ```go
 func runCli() {
 	// ...
@@ -77,6 +82,7 @@ func runCli() {
 ```
 
 ## User Input
+
 First step is reading user input. While this can easily be done in
 the Go standard library via an `os.Stdin.Read()` or whatever,
 we don't get the nice stuff that your user shell like Bash and Zsh
@@ -87,6 +93,7 @@ It's enough for our current uses, but in the future I might just move to using
 Hilbish's line reader library.
 
 So let's fill out that `runCli` function to read input:
+
 ```go
 // cli.go
 package main
@@ -113,13 +120,16 @@ func runCli() {
 ```
 
 ![](https://safe.kashima.moe/ucjbhn7v8ut4.png)
+
 > World's most useless shell.
 
 ## Commands
+
 Next, we have to make sure that users can actually run
 commands. The first thing to that is that we have to split up
 the user's input into parts of the command and everything else, which
 is very easy:
+
 ```go
 func parseLine(line string) (string, []string) {
 	line = strings.TrimSpace(line) // remove whitespace
@@ -145,6 +155,7 @@ func parseLine(line string) (string, []string) {
 ```
 
 Next up, let's write a command based on this code.
+
 ```go
 for {
 	// [...]
@@ -166,6 +177,7 @@ for {
 We can add any other commands the same way. The next one we
 need to do is a load command for an image. Before that, I
 created a struct for the "state" which will store the image we're working with:
+
 ```go
 type cliState struct{
 	workingImage image.Image
@@ -173,6 +185,7 @@ type cliState struct{
 ```
 
 Add the state somewhere before our shell loop, and then make the load command:
+
 ```go
 	case "load":
 		if len(cmd.args) == 0 {
@@ -189,10 +202,12 @@ Add the state somewhere before our shell loop, and then make the load command:
 ```
 
 ## Other Features
+
 You know how I mentioned undo as one of our advantages for this shell?
 That's easy: store a slice of images and whenever a change was
 made, append the edited image to our slice. We can do that in our
 previously declared cliState struct:
+
 ```go
 type cliState struct{
 	workingImage image.Image
@@ -202,6 +217,7 @@ type cliState struct{
 
 Then to actually undo that, we can reslice to set the current working image.
 We'll make a convenient function to do that:
+
 ```go
 func (s *cliState) undoImg() {
 	prevIdx := len(s.prevImageStates) - 1
@@ -216,6 +232,7 @@ func (s *cliState) undoImg() {
 ```
 
 # The Scripting Language
+
 > The exiting part!
 
 At the current point, the Aster shell works good enough; we have commands
@@ -234,12 +251,14 @@ language as there are plenty of better resources out there. Nonetheless,
 I'll still be writing about my attempt to doing it.
 
 ## Step 1: Lexing
+
 The first step is turning some source code into a set of tokens.
 I used [this](https://www.aaronraff.dev/blog/how-to-write-a-lexer-in-go) as
 my resource for writing a lexer. The TLDR is that we read the input
 rune by rune, and output a certain token based on what's read.
 
 We will define a set of tokens:
+
 ```go
 type Token int
 const (
@@ -251,6 +270,7 @@ const (
 ```
 
 And define our lexer:
+
 ```go
 type Position struct {
 	Line int
@@ -275,6 +295,7 @@ to unread a character.
 So to actually lex our source into tokens, we'll have this `Next`
 function that can be ran in a loop to get a list of tokens
 from a source file:
+
 ```go
 func (l *Lexer) Next() (Token, Position, string) {
 	for {
@@ -309,6 +330,7 @@ let's have it turn `"hello world"` into a string token:
 ```
 
 And our scanString function will be like so:
+
 ```go
 func (l *Lexer) scanString() string {
 	sb := strings.Builder{}
@@ -333,6 +355,7 @@ func (l *Lexer) scanString() string {
 
 Next, we'll want to parse identifiers. This can go in our default
 case for the switch statement.
+
 ```go
 	default:
 		if unicode.IsLetter(r) {
@@ -346,6 +369,7 @@ case for the switch statement.
 
 We want to be able to go back so that the first character of the
 identifier doesn't get cut off:
+
 ```go
 func (l *Lexer) Back() {
 	l.reader.UnreadRune()
@@ -354,6 +378,7 @@ func (l *Lexer) Back() {
 ```
 
 And then actually scan our identifier:
+
 ```go
 func (l *Lexer) scanIdent() string {
 	sb := strings.Builder{}
@@ -382,6 +407,7 @@ something like a number.
 
 We'll add a `String` method to our token type to be able to see
 what token it is easily.
+
 ```go
 var tokenIdentMap = map[Token]string{
 	EOF: "EOF",
@@ -398,6 +424,7 @@ func (t Token) String() string {
 
 Let's make our shell tokenize user input into tokens and then print
 them. This will be done after we print the line in our shell loop.
+
 ```go
 // turns our line into an io.Reader interface
 lx := NewLexer(strings.NewReader(line))
@@ -417,8 +444,10 @@ for {
 > It tokenizes!
 
 ## Step 2: Parsing into an AST
+
 First of all: what is an AST?
 Well, this is the result from Google:
+
 > An Abstract Syntax Tree, or AST, is a tree representation of the
 source code of a computer program that conveys the structure of
 the source code. Each node in the tree represents a construct occurring
@@ -433,6 +462,7 @@ easy to represent our source code into something easily executable!
 
 The first step I did was declare an interface for all nodes in our
 AST to implement. This is based on Go's own AST package.
+
 ```go
 type Node interface{
 	Start() Position
@@ -442,6 +472,7 @@ type Node interface{
 
 Now I declare some structs for the basic parts of Asterscript's 
 syntax. One of those would be running a command (or calling a function):
+
 ```go
 type Call struct {
 	Pos Position
@@ -451,10 +482,12 @@ type Call struct {
 func (c Call) Start() Position { return c.Pos }
 func (c Call) End() Position { return c.Pos }
 ```
+
 Functions can have arguments passed to them though right? So we need to
 store that in our Call struct. But what type would they be?
 
 I made a Value type to hold Asterscript values:
+
 ```go
 type Value struct{
 	Pos Position
@@ -462,7 +495,9 @@ type Value struct{
 	Kind ValueKind
 }
 ```
+
 And the `Kind` here would basically tell us what the type of the value is.
+
 ```go
 type ValueKind int
 const (
@@ -470,7 +505,9 @@ const (
 	StringKind
 )
 ```
+
 So then we can add it to our Call struct:
+
 ```go
 type Call struct {
 	Pos Position
@@ -483,6 +520,7 @@ Now we can go ahead and attempt parsing! We will have a very basic
 parser that only attempts to parse calls. In our parse function,
 the first step is to get a new lexer so we can loop over the tokens,
 and also have a slice to store our nodes:
+
 ```go
 func Parse(r io.Reader) ([]Node, error) {
 	lx := NewLexer(r)
@@ -500,12 +538,14 @@ func Parse(r io.Reader) ([]Node, error) {
 ```
 
 Now is the real step of going ahead and parsing. Remember when I said:
+
 > Any lone identifier is a command, and whatever after it are the arguments.
 This makes it pluggable as is for our use in a terminal shell.
 
 Which means that we can assume an IDENT token is a command, and for
 simplicity we can expect 1 string afterwards to be the argument to it.
 So we can have this in our loop:
+
 ```go
 switch token {
 	case IDENT:
@@ -528,11 +568,13 @@ switch token {
 ```
 
 ## Step 3: Interpreting
+
 What good is a scripting language that can't be used to script!?
 We need now need to run our code, based on the nodes that the AST gives
 us.
 
 So let's make a function to interpret our language:
+
 ```go
 func Run(r io.Reader) {
 	nodes, _ := Parse(r)
@@ -548,6 +590,7 @@ check for, but it's still good to use a switch anyway to
 add new cases.
 
 So that gets added in our loop:
+
 ```go
 // we can have a switch statement based on what concrete type
 // we have because node is an interface!
@@ -559,12 +602,14 @@ switch n := node.(type) {
 
 Hmm.. how are we going to have commands stored to call them?
 First let's have a type for our commands:
+
 ```go
 type Command func([]Value) // a command is passed a list of arguments
 ```
 
 And then we can have a simple map to store them and at
 the same time make a print function. We do this right before our parse loop.
+
 ```go
 commands := make(map[string]Command)
 
@@ -574,6 +619,7 @@ commands["print"] = func(v []Value) {
 ```
 
 Let's make our interpreter run this now.
+
 ```go
 switch n := node.(type) {
 	case Call:
@@ -587,6 +633,7 @@ switch n := node.(type) {
 Let's go back to our shell loop and remove our parseLine call and
 the switch block under it, since we can just use our new Run function.
 That leaves us with:
+
 ```go
 for {
 	line, err := rl.Readline()
@@ -611,10 +658,13 @@ for {
 ```
 
 Now when we go to our shell and try to run that print command:
+
 ![](https://safe.kashima.moe/mjt7h4ulkg6h.png)
+
 > It lives!
 
 # Ending Off
+
 This was honestly one of the most fun things I have made recently.
 I like working on Hilbish and my other projects, but this was *exciting.*
 
@@ -623,7 +673,7 @@ like the math shown in the example at the beginning. Should it be based
 on precedence? Whitespace-sensitive like Go, or just evaluate in order
 with parentheses? Who knows.
 
-You can check out more progress at my [PR] and my Discord server,
+You can check out more progress at my [PR][PR] and my Discord server,
 the "community" link at the top of this web page!
 
 [Aster]: https://github.com/TorchedSammy/Aster

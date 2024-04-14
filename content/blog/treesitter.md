@@ -1,11 +1,12 @@
 ---
-title: "How (Not) To Use Treesitter"
-date: 2022-08-07T23:41:19-04:00
-draft: false
-description: "My attempt at bringing Treesitter support in Lite XL."
+title = "How (Not) To Use Treesitter"
+date = "2022-08-07T23:41:19-04:00"
+draft = false
+description = "My attempt at bringing Treesitter support in Lite XL."
 ---
 
 > Tree-sitter is a parser generator tool and an incremental parsing library.
+
 It can build a concrete syntax tree for a source file and efficiently update
 the syntax tree as the source file is edited.
 
@@ -19,6 +20,7 @@ So seeing as my editor of choice, Lite XL, does *not* have a plugin for
 Treesitter highlighting, I decided to make it.
 
 # Starting Off
+
 Lite XL plugins can be made in either Lua or C. I don't like C,
 or even write it, so I had to go with Lua and find a Treesitter Lua binding.
 Luckily, [ltreesitter](https://github.com/euclidianAce/ltreesitter) exists.
@@ -32,21 +34,27 @@ for `idx`, that being the line. That means that on every line to highlight,
 it queries the entire tree and loops over it to find the right tokens
 based on the line.
 
-It was slow as hell *and* it was still broken.  
-![](https://safe.kashima.moe/mp6u2xohbv18.png)  
-I realized a few things:  
+It was slow as hell *and* it was still broken.
+
+![](https://safe.kashima.moe/mp6u2xohbv18.png)
+
+I realized a few things:
+
 - I am indexing wrong. As Lite XL's highlighter has 1 indexed lines,
 and Treesitter is 0 indexed.
 - I am not adding indentation or whitespace between nodes.
 - There is duplicated text.
 
 # Improvements
+
 I made it add spacing according to the amount of columns between the adjacent
 nodes, and also added spaces if the first node of a line doesn't start at 0.
-That improved basic files like this:  
+That improved basic files like this:
+
 ![](https://safe.kashima.moe/nm55f0tbx1hz.png)
 
-But still had a problem here:  
+But still had a problem here:
+
 ![](https://safe.kashima.moe/pw1oyzud3t3e.png)
 
 It turns out that Treesitter gives the same node multiple times based on
@@ -56,10 +64,12 @@ the group. A simple filter function would replace subsequent nodes instead
 of the last one, because the one that is returned after is the correct
 one (according to my queries).
 
-And with that, I have made it correct:  
+And with that, I have made it correct:
+
 ![](https://safe.kashima.moe/t9fokvjv51ry.png)
 
 # Even More Problems
+
 You might have possibly thought that I was done and that I now have rich
 syntax highlighting in Lite XL and while that is technically true,
 it doesn't 100% work. There were a lot more problems, one of them being
@@ -88,6 +98,7 @@ on the position of the cursor and also check the amount of bytes for what the us
 Reparsing alone *technically* works.
 
 # Finishing Off
+
 You can check out the "final" thing [right here](https://github.com/TorchedSammy/Evergreen.lxl).
 It would be nice for someone to make some contributions so this can be more
 than a proof of concept. I feel that with my code is definitely not the best and most efficient
